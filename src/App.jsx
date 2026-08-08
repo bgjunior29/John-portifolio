@@ -18,10 +18,18 @@ const projects = [
     icon: "scissors",
   },
   {
+    name: "Judoces",
+    desc: "Landipage premium para vendas de bolos, e vendas no whatsapp ",
+    tech: ["TypeScript", "Node.js", "Railway", "Vercel"],
+    status: "feito",
+    category: ["fullstack", "landing"],
+    icon: "cake",
+  },
+  {
     name: "Vitrix Commerce",
     desc: "Protótipo de e-commerce futurista com estética HUD, carrinho, cupons e checkout via Mercado Pago.",
     tech: ["React", "Tailwind CSS", "Mercado Pago"],
-    status: "Protótipo",
+    status: "feito",
     category: ["frontend", "landing"],
     icon: "shopping-cart",
   },
@@ -42,8 +50,6 @@ const softSkills = [
   { name: "Facilidade de Aprendizado", icon: "book-open" },
   { name: "Resolução de Problemas", icon: "puzzle" },
   { name: "Organização", icon: "list-checks" },
-  { name: "Adaptabilidade", icon: "refresh-ccw" },
-  { name: "Inteligência Emocional", icon: "heart-handshake" },
 ];
 
 function App() {
@@ -540,6 +546,10 @@ function App() {
                   />
                 </svg>
                 <div className="absolute inset-0 tech-grid opacity-40" />
+                <img
+                  src="WhatsApp Image 2026-08-08 at 17.36.02.jpeg"
+                  alt="john wesley"
+                />
                 <div className="absolute top-4 left-4 mono text-[10px] text-cyan-300/80">
                   JW_DEV
                 </div>
@@ -623,8 +633,8 @@ function App() {
           </div>
           <div className="reveal-right space-y-6 text-gray-400 leading-relaxed text-[15px] md:text-base">
             <p>
-              Meu nome é John Wesley e sou apaixonado por tecnologia desde cedo.
-              Ao longo da minha trajetória, desenvolvi experiência em
+              Meu nome é John Wesley e sou apaixonado por tecnologia desde
+              pequeno. Ao longo da minha trajetória, desenvolvi experiência em
               infraestrutura de TI, suporte técnico, manutenção de hardware e
               automação, sempre buscando aprender novas tecnologias e evoluir
               profissionalmente.
@@ -635,7 +645,7 @@ function App() {
                 Auxiliar Técnico Jr na Avantia Tecnologia
               </span>
               , onde trabalho com infraestrutura, manutenção preventiva e
-              corretiva, instalação e configuração de equipamentos, redes e
+              corretiva, instalação e configuração de equipamentos, alarme e
               sistemas de segurança.
             </p>
             <p>
@@ -643,7 +653,7 @@ function App() {
               atuação para o desenvolvimento de software, criando aplicações web
               e mobile modernas utilizando tecnologias como{" "}
               <span className="text-white font-medium">
-                React, TypeScript, Node.js, Flutter e PostgreSQL
+                React, TypeScript, Node.js, Flutter prisma e PostgreSQL
               </span>
               .
             </p>
@@ -671,9 +681,7 @@ function App() {
                 <p className="text-white text-sm font-medium">
                   Desenvolvimento
                 </p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Web e mobile full stack
-                </p>
+                <p className="text-gray-500 text-xs mt-1">Web e full stack</p>
               </div>
             </div>
           </div>
@@ -702,7 +710,7 @@ function App() {
             <div className="relative mb-16 md:grid md:grid-cols-2 md:gap-12 reveal-left">
               <span className="absolute left-4 md:left-1/2 top-1.5 w-3 h-3 -translate-x-1/2 rounded-full bg-cyan-300 timeline-dot" />
               <div className="md:text-right md:pr-4">
-                <span className="mono text-xs text-cyan-300">2024 — ATUAL</span>
+                <span className="mono text-xs text-cyan-300">2026 — ATUAL</span>
                 <h3 className="display text-xl font-semibold text-white mt-2">
                   Auxiliar Técnico Jr
                 </h3>
@@ -715,7 +723,6 @@ function App() {
                   <span className="tag">Configuração de IP</span>
                   <span className="tag">Instalação de câmeras</span>
                   <span className="tag">Manutenção preventiva</span>
-                  <span className="tag">Automação</span>
                 </div>
               </div>
             </div>
@@ -744,7 +751,7 @@ function App() {
             <div className="relative md:grid md:grid-cols-2 md:gap-12 reveal-left">
               <span className="absolute left-4 md:left-1/2 top-1.5 w-3 h-3 -translate-x-1/2 rounded-full bg-cyan-300 timeline-dot" />
               <div className="md:text-right md:pr-4">
-                <span className="mono text-xs text-cyan-300">2022 — 2023</span>
+                <span className="mono text-xs text-cyan-300">2024 — 2025</span>
                 <h3 className="display text-xl font-semibold text-white mt-2">
                   Aprendiz Administrativo
                 </h3>
@@ -989,8 +996,6 @@ function App() {
                 <span className="tool-chip">GitHub</span>
                 <span className="tool-chip">Railway</span>
                 <span className="tool-chip">Vercel</span>
-                <span className="tool-chip">Figma</span>
-                <span className="tool-chip">VS Code</span>
                 <span className="tool-chip">Beekeeper Studio</span>
               </div>
             </div>
@@ -1032,15 +1037,6 @@ function App() {
                     <div className="skill-bar-fill h-full rounded-full" />
                   </div>
                 </div>
-                <div className="skill" data-level="80">
-                  <div className="flex justify-between text-xs mb-1.5">
-                    <span>Windows / Linux</span>
-                    <span className="mono text-cyan-300">80%</span>
-                  </div>
-                  <div className="h-1.5 bg-white/5 rounded-full">
-                    <div className="skill-bar-fill h-full rounded-full" />
-                  </div>
-                </div>
                 <div className="skill" data-level="82">
                   <div className="flex justify-between text-xs mb-1.5">
                     <span>Segurança eletrônica</span>
@@ -1066,7 +1062,7 @@ function App() {
               Projetos
             </h2>
             <p className="text-gray-500 mt-4 max-w-xl mx-auto">
-              Uma seleção dos produtos que desenvolvi, do front ao deploy.
+              Uma seleção dos pages que desenvolvi, do front ao deploy.
             </p>
           </div>
           <div
@@ -1137,7 +1133,7 @@ function App() {
                     Demo
                   </a>
                   <a
-                    href="#"
+                    href="#contato"
                     className="mono text-xs text-gray-300 hover:text-cyan-300 flex items-center gap-1.5 transition-colors ml-auto"
                   >
                     <i data-lucide="arrow-up-right" className="w-3.5 h-3.5" />{" "}
@@ -1240,19 +1236,28 @@ function App() {
               Envie uma mensagem ou me encontre nos canais abaixo.
             </p>
             <div className="space-y-4 mt-10">
-              <a href="#" className="contact-link">
+              <a href="https://github.com/bgjunior29" className="contact-link">
                 <i data-lucide="github" className="w-5 h-5" />{" "}
                 github.com/johnwesley
               </a>
-              <a href="#" className="contact-link">
+              <a
+                href="https://www.linkedin.com/in/john-w-144763242/"
+                className="contact-link"
+              >
                 <i data-lucide="linkedin" className="w-5 h-5" />{" "}
                 linkedin.com/in/johnwesley
               </a>
-              <a href="mailto:contato@johnwesley.dev" className="contact-link">
+              <a
+                href="mailto:movitechsuporter@gmail.com"
+                className="contact-link"
+              >
                 <i data-lucide="mail" className="w-5 h-5" />{" "}
                 contato@johnwesley.dev
               </a>
-              <a href="#" className="contact-link">
+              <a
+                href="https://wa.me/5511968363530?text=ol%C3%A1%20%2C%20Tudo%20Bem%20%3F"
+                className="contact-link"
+              >
                 <i data-lucide="message-circle" className="w-5 h-5" /> WhatsApp
               </a>
               <a href="#" download className="contact-link">
@@ -1305,6 +1310,7 @@ function App() {
             </div>
             <button
               type="submit"
+              href="mailto:movitechsuporter@gmail.com"
               className="btn-primary ripple w-full text-white font-medium py-3.5 rounded-xl inline-flex items-center justify-center gap-2"
             >
               Enviar mensagem <i data-lucide="send" className="w-4 h-4" />
@@ -1362,7 +1368,7 @@ function App() {
               </a>
             </div>
           </div>
-          <div>
+          {/* <div>
             <p className="mono text-xs text-gray-500 tracking-widest mb-4">
               REDES SOCIAIS
             </p>
@@ -1380,7 +1386,7 @@ function App() {
                 <i data-lucide="mail" className="w-4 h-4" />
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 mt-14 pt-6 border-t border-white/5">
           <p className="mono text-xs text-gray-600">
