@@ -125,10 +125,13 @@ function App() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in");
-            entry.target.querySelectorAll?.(".skill")?.forEach((skill) => {
-              const fill = skill.querySelector(".skill-bar-fill");
-              if (fill) fill.style.width = skill.dataset.level + "%";
-            });
+            entry.target
+              .querySelectorAll<HTMLElement>(".skill")
+              ?.forEach((skill) => {
+                const fill =
+                  skill.querySelector<HTMLElement>(".skill-bar-fill");
+                if (fill) fill.style.width = skill.dataset.level + "%";
+              });
             revealObserver.unobserve(entry.target);
           }
         });
@@ -142,17 +145,17 @@ function App() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const el = entry.target;
+            const el = entry.target as HTMLElement;
             const target = Number(el.dataset.target);
             let current = 0;
             const step = Math.max(1, target / 60);
             const tick = () => {
               current += step;
               if (current >= target) {
-                el.textContent = target;
+                el.textContent = String(target);
                 return;
               }
-              el.textContent = Math.floor(current);
+              el.textContent = String(Math.floor(current));
               requestAnimationFrame(tick);
             };
             tick();
@@ -194,12 +197,16 @@ function App() {
     loopRing();
     window.addEventListener("mousemove", pointerMove);
 
-    document.querySelectorAll("a, button, input, textarea").forEach((el) => {
-      el.addEventListener("mouseenter", () => ring?.classList.add("active"));
-      el.addEventListener("mouseleave", () => ring?.classList.remove("active"));
-    });
+    document
+      .querySelectorAll<HTMLElement>("a, button, input, textarea")
+      .forEach((el) => {
+        el.addEventListener("mouseenter", () => ring?.classList.add("active"));
+        el.addEventListener("mouseleave", () =>
+          ring?.classList.remove("active"),
+        );
+      });
 
-    document.querySelectorAll("[data-magnetic]").forEach((btn) => {
+    document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((btn) => {
       btn.addEventListener("mousemove", (event) => {
         const rect = btn.getBoundingClientRect();
         const x = event.clientX - rect.left - rect.width / 2;
@@ -213,7 +220,7 @@ function App() {
       });
     });
 
-    document.querySelectorAll(".ripple").forEach((btn) => {
+    document.querySelectorAll<HTMLElement>(".ripple").forEach((btn) => {
       btn.addEventListener("click", (event) => {
         const rect = btn.getBoundingClientRect();
         const span = document.createElement("span");
@@ -225,7 +232,7 @@ function App() {
       });
     });
 
-    document.querySelectorAll(".tilt-card").forEach((el) => {
+    document.querySelectorAll<HTMLElement>(".tilt-card").forEach((el) => {
       el.addEventListener("mousemove", (event) => {
         const rect = el.getBoundingClientRect();
         const px = (event.clientX - rect.left) / rect.width - 0.5;
@@ -238,10 +245,18 @@ function App() {
       });
     });
 
-    const canvas = document.getElementById("particles");
+    const canvas = document.getElementById(
+      "particles",
+    ) as HTMLCanvasElement | null;
     if (canvas) {
       const ctx = canvas.getContext("2d");
-      let particles = [];
+      let particles: Array<{
+        x: number;
+        y: number;
+        vx: number;
+        vy: number;
+        r: number;
+      }> = [];
 
       const resizeCanvas = () => {
         canvas.width = canvas.offsetWidth;
@@ -1315,7 +1330,7 @@ function App() {
             <input
               type="text"
               name="_honey"
-              tabIndex="-1"
+              tabIndex={-1}
               autoComplete="off"
               className="hidden"
             />
@@ -1373,7 +1388,7 @@ function App() {
               </label>
               <textarea
                 required
-                rows="5"
+                rows={5}
                 name="message"
                 id="message"
                 className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 resize-none"
