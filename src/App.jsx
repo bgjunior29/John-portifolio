@@ -16,20 +16,22 @@ const projects = [
     status: "Em produção",
     category: ["fullstack", "landing"],
     icon: "scissors",
+    repository: "https://github.com/bgjunior29/dioSal-o",
   },
   {
     name: "Judoces",
-    desc: "Landipage premium para vendas de bolos, e vendas no whatsapp ",
+    desc: "Landing page premium para vendas de bolos, com pedidos pelo WhatsApp.",
     tech: ["TypeScript", "Node.js", "Railway", "Vercel"],
-    status: "feito",
+    status: "Concluído",
     category: ["fullstack", "landing"],
     icon: "cake",
+    repository: "https://github.com/bgjunior29/ju-doces",
   },
   {
     name: "Vitrix Commerce",
     desc: "Protótipo de e-commerce futurista com estética HUD, carrinho, cupons e checkout via Mercado Pago.",
     tech: ["React", "Tailwind CSS", "Mercado Pago"],
-    status: "feito",
+    status: "Concluído",
     category: ["frontend", "landing"],
     icon: "shopping-cart",
   },
@@ -55,6 +57,48 @@ const softSkills = [
 function App() {
   const [activeFilter, setActiveFilter] = useState("todos");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [formStatus, setFormStatus] = useState({ type: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    const submittedForm = event.currentTarget;
+    setIsSubmitting(true);
+    setFormStatus({ type: "", message: "" });
+
+    try {
+      const response = await fetch(
+        "https://formsubmit.co/ajax/movitechsuporterdev@gmail.com",
+        {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(submittedForm),
+        },
+      );
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.success === false) {
+        throw new Error(
+          result.message || "Não foi possível enviar a mensagem.",
+        );
+      }
+
+      submittedForm.reset();
+      setFormStatus({
+        type: "success",
+        message: "E-mail enviado com sucesso. Obrigado pelo contato!",
+      });
+    } catch (error) {
+      setFormStatus({
+        type: "error",
+        message:
+          error.message ||
+          "Não foi possível enviar agora. Tente novamente em instantes.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     if (window.lucide) window.lucide.createIcons();
@@ -251,16 +295,6 @@ function App() {
       window.addEventListener("resize", initParticles);
     }
 
-    const form = document.getElementById("contactForm");
-    const status = document.getElementById("formStatus");
-    form?.addEventListener("submit", (event) => {
-      event.preventDefault();
-      status?.classList.remove("hidden");
-      if (status)
-        status.textContent =
-          "Mensagem pronta! Conecte um serviço de e-mail (ex: Formspree) para receber os envios automaticamente.";
-    });
-
     window.addEventListener("scroll", updateNav);
     updateNav();
     window.addEventListener("load", () => {
@@ -274,6 +308,10 @@ function App() {
       counterObserver.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    window.lucide?.createIcons();
+  }, [activeFilter]);
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "todos") return projects;
@@ -360,7 +398,9 @@ function App() {
             type="button"
             className="lg:hidden text-white"
             onClick={() => setMobileOpen((prev) => !prev)}
-            aria-label="Abrir menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobileMenu"
+            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
           >
             <i data-lucide={mobileOpen ? "x" : "menu"} className="w-7 h-7" />
           </button>
@@ -474,7 +514,7 @@ function App() {
                 Sobre mim
               </a>
               <a
-                href="#"
+                href="/curriculo-john-wesley-2026.pdf"
                 download
                 data-magnetic
                 className="btn-ghost text-white font-medium px-7 py-3.5 rounded-full inline-flex items-center gap-2"
@@ -548,7 +588,7 @@ function App() {
                 <div className="absolute inset-0 tech-grid opacity-40" />
                 <img
                   src="WhatsApp Image 2026-08-08 at 17.36.02.jpeg"
-                  alt="john wesley"
+                  alt="Retrato de John Wesley"
                 />
                 <div className="absolute top-4 left-4 mono text-[10px] text-cyan-300/80">
                   JW_DEV
@@ -597,8 +637,6 @@ function App() {
           <span>·</span>
           <span>REDES &amp; INFRAESTRUTURA</span>
           <span>·</span>
-          <span>FLUTTER</span>
-          <span>·</span>
           <span>REACT</span>
           <span>·</span>
           <span>TYPESCRIPT</span>
@@ -612,8 +650,6 @@ function App() {
           <span>PRISMA</span>
           <span>·</span>
           <span>REDES &amp; INFRAESTRUTURA</span>
-          <span>·</span>
-          <span>FLUTTER</span>
           <span>·</span>
         </div>
       </div>
@@ -653,7 +689,7 @@ function App() {
               atuação para o desenvolvimento de software, criando aplicações web
               e mobile modernas utilizando tecnologias como{" "}
               <span className="text-white font-medium">
-                React, TypeScript, Node.js, Flutter prisma e PostgreSQL
+                React, TypeScript, Node.js, Prisma e PostgreSQL
               </span>
               .
             </p>
@@ -879,15 +915,6 @@ function App() {
                     <div className="skill-bar-fill h-full rounded-full" />
                   </div>
                 </div>
-                <div className="skill" data-level="75">
-                  <div className="flex justify-between text-xs mb-1.5">
-                    <span>Flutter</span>
-                    <span className="mono text-cyan-300">75%</span>
-                  </div>
-                  <div className="h-1.5 bg-white/5 rounded-full">
-                    <div className="skill-bar-fill h-full rounded-full" />
-                  </div>
-                </div>
               </div>
             </div>
             <div
@@ -961,15 +988,6 @@ function App() {
                   <div className="flex justify-between text-xs mb-1.5">
                     <span>PostgreSQL</span>
                     <span className="mono text-cyan-300">86%</span>
-                  </div>
-                  <div className="h-1.5 bg-white/5 rounded-full">
-                    <div className="skill-bar-fill h-full rounded-full" />
-                  </div>
-                </div>
-                <div className="skill" data-level="70">
-                  <div className="flex justify-between text-xs mb-1.5">
-                    <span>SQLite</span>
-                    <span className="mono text-cyan-300">70%</span>
                   </div>
                   <div className="h-1.5 bg-white/5 rounded-full">
                     <div className="skill-bar-fill h-full rounded-full" />
@@ -1062,7 +1080,8 @@ function App() {
               Projetos
             </h2>
             <p className="text-gray-500 mt-4 max-w-xl mx-auto">
-              Uma seleção dos pages que desenvolvi, do front ao deploy.
+              Uma seleção das páginas e aplicações que desenvolvi, do front ao
+              deploy.
             </p>
           </div>
           <div
@@ -1099,6 +1118,7 @@ function App() {
                     <i
                       data-lucide={project.icon}
                       className="w-6 h-6 text-cyan-300"
+                      aria-hidden="true"
                     />
                   </div>
                   <span className="mono text-[10px] px-3 py-1 rounded-full border border-emerald-400/30 text-emerald-300">
@@ -1119,24 +1139,31 @@ function App() {
                   ))}
                 </div>
                 <div className="flex items-center gap-4 mt-7 pt-5 border-t border-white/5">
-                  <a
-                    href="#"
-                    className="mono text-xs text-gray-300 hover:text-cyan-300 flex items-center gap-1.5 transition-colors"
-                  >
-                    <i data-lucide="github" className="w-3.5 h-3.5" /> Código
-                  </a>
-                  <a
-                    href="#"
-                    className="mono text-xs text-gray-300 hover:text-cyan-300 flex items-center gap-1.5 transition-colors"
-                  >
-                    <i data-lucide="external-link" className="w-3.5 h-3.5" />{" "}
-                    Demo
-                  </a>
+                  {project.repository && (
+                    <a
+                      href={project.repository}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mono text-xs text-gray-300 hover:text-cyan-300 flex items-center gap-1.5 transition-colors"
+                      aria-label={`Abrir código do projeto ${project.name} no GitHub`}
+                    >
+                      <i
+                        data-lucide="code-2"
+                        className="w-3.5 h-3.5"
+                        aria-hidden="true"
+                      />
+                      Código
+                    </a>
+                  )}
                   <a
                     href="#contato"
                     className="mono text-xs text-gray-300 hover:text-cyan-300 flex items-center gap-1.5 transition-colors ml-auto"
                   >
-                    <i data-lucide="arrow-up-right" className="w-3.5 h-3.5" />{" "}
+                    <i
+                      data-lucide="arrow-up-right"
+                      className="w-3.5 h-3.5"
+                      aria-hidden="true"
+                    />{" "}
                     Saiba mais
                   </a>
                 </div>
@@ -1237,22 +1264,23 @@ function App() {
             </p>
             <div className="space-y-4 mt-10">
               <a href="https://github.com/bgjunior29" className="contact-link">
-                <i data-lucide="github" className="w-5 h-5" />{" "}
-                github.com/johnwesley
+                <i data-lucide="code-2" className="w-5 h-5" />{" "}
+                github.com/bgjunior29
               </a>
               <a
                 href="https://www.linkedin.com/in/john-w-144763242/"
                 className="contact-link"
               >
-                <i data-lucide="linkedin" className="w-5 h-5" />{" "}
-                linkedin.com/in/johnwesley
+                <i data-lucide="briefcase-business" className="w-5 h-5" />{" "}
+                linkedin.com/in/john-w-144763242
               </a>
               <a
-                href="mailto:movitechsuporter@gmail.com"
+                href="/curriculo-john-wesley-2026.pdf"
+                download
                 className="contact-link"
               >
-                <i data-lucide="mail" className="w-5 h-5" />{" "}
-                contato@johnwesley.dev
+                <i data-lucide="mail" className="w-5 h-5" /> Enviar mensagem
+                pelo formulário
               </a>
               <a
                 href="https://wa.me/5511968363530?text=ol%C3%A1%20%2C%20Tudo%20Bem%20%3F"
@@ -1260,7 +1288,7 @@ function App() {
               >
                 <i data-lucide="message-circle" className="w-5 h-5" /> WhatsApp
               </a>
-              <a href="#" download className="contact-link">
+              <a href="#contato" className="contact-link">
                 <i data-lucide="file-down" className="w-5 h-5" /> Baixar
                 currículo (PDF)
               </a>
@@ -1268,59 +1296,107 @@ function App() {
           </div>
           <form
             id="contactForm"
+            onSubmit={handleFormSubmit}
+            acceptCharset="UTF-8"
             className="glass-strong rounded-3xl p-8 md:p-10 reveal-right space-y-5"
           >
+            <input
+              type="hidden"
+              name="_subject"
+              value="Novo contato pelo portfólio"
+            />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input
+              type="hidden"
+              name="_autoresponse"
+              value="Recebi sua mensagem e entrarei em contato em breve."
+            />
+            <input
+              type="text"
+              name="_honey"
+              tabIndex="-1"
+              autoComplete="off"
+              className="hidden"
+            />
+            <input
+              type="hidden"
+              name="_next"
+              value={`${window.location.origin}${window.location.pathname}`}
+            />
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
-                <label className="mono text-xs text-gray-400">NOME</label>
+                <label htmlFor="name" className="mono text-xs text-gray-400">
+                  NOME
+                </label>
                 <input
                   required
                   type="text"
+                  name="name"
+                  id="name"
+                  autoComplete="name"
                   className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600"
                   placeholder="Seu nome"
                 />
               </div>
               <div>
-                <label className="mono text-xs text-gray-400">E-MAIL</label>
+                <label htmlFor="email" className="mono text-xs text-gray-400">
+                  E-MAIL
+                </label>
                 <input
                   required
                   type="email"
+                  name="_replyto"
+                  id="email"
+                  autoComplete="email"
                   className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600"
                   placeholder="voce@email.com"
                 />
               </div>
             </div>
             <div>
-              <label className="mono text-xs text-gray-400">ASSUNTO</label>
+              <label htmlFor="subject" className="mono text-xs text-gray-400">
+                ASSUNTO
+              </label>
               <input
                 required
                 type="text"
+                name="subject"
+                id="subject"
                 className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600"
                 placeholder="Sobre o que vamos falar?"
               />
             </div>
             <div>
-              <label className="mono text-xs text-gray-400">MENSAGEM</label>
+              <label htmlFor="message" className="mono text-xs text-gray-400">
+                MENSAGEM
+              </label>
               <textarea
                 required
                 rows="5"
+                name="message"
+                id="message"
                 className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 resize-none"
                 placeholder="Conte um pouco sobre o seu projeto..."
               />
             </div>
             <button
               type="submit"
-              href="mailto:movitechsuporter@gmail.com"
+              disabled={isSubmitting}
               className="btn-primary ripple w-full text-white font-medium py-3.5 rounded-xl inline-flex items-center justify-center gap-2"
             >
-              Enviar mensagem <i data-lucide="send" className="w-4 h-4" />
+              {isSubmitting ? "Enviando..." : "Enviar mensagem"}{" "}
+              <i
+                data-lucide={isSubmitting ? "loader-circle" : "send"}
+                className={`w-4 h-4 ${isSubmitting ? "animate-spin" : ""}`}
+              />
             </button>
             <p
-              id="formStatus"
-              className="mono text-xs text-cyan-300 text-center hidden"
+              className={`mono text-xs text-center ${formStatus.type === "success" ? "text-emerald-300" : "text-rose-300"} ${formStatus.message ? "" : "hidden"}`}
+              role="status"
+              aria-live="polite"
             >
-              Mensagem pronta — conecte um serviço de e-mail para receber os
-              envios.
+              {formStatus.message}
             </p>
           </form>
         </div>
@@ -1368,29 +1444,68 @@ function App() {
               </a>
             </div>
           </div>
-          {/* <div>
+          <div>
             <p className="mono text-xs text-gray-500 tracking-widest mb-4">
               REDES SOCIAIS
             </p>
             <div className="flex gap-3">
-              <a href="#" className="social-icon">
-                <i data-lucide="github" className="w-4 h-4" />
+              <a
+                href="https://github.com/bgjunior29"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon"
+                aria-label="GitHub de John Wesley"
+                title="GitHub"
+              >
+                <i
+                  data-lucide="code-2"
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                />
               </a>
-              <a href="#" className="social-icon">
-                <i data-lucide="linkedin" className="w-4 h-4" />
+              <a
+                href="https://www.linkedin.com/in/john-w-144763242/"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon"
+                aria-label="LinkedIn de John Wesley"
+                title="LinkedIn"
+              >
+                <i
+                  data-lucide="briefcase-business"
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                />
               </a>
-              <a href="#" className="social-icon">
-                <i data-lucide="instagram" className="w-4 h-4" />
+              <a
+                href="https://wa.me/5511968363530"
+                target="_blank"
+                rel="noreferrer"
+                className="social-icon"
+                aria-label="WhatsApp de John Wesley"
+                title="WhatsApp"
+              >
+                <i
+                  data-lucide="message-circle"
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                />
               </a>
-              <a href="mailto:contato@johnwesley.dev" className="social-icon">
-                <i data-lucide="mail" className="w-4 h-4" />
+              <a
+                href="#contato"
+                className="social-icon"
+                aria-label="Enviar e-mail para John Wesley"
+                title="E-mail"
+              >
+                <i data-lucide="mail" className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 mt-14 pt-6 border-t border-white/5">
           <p className="mono text-xs text-gray-600">
-            © <span id="year" /> John Wesley. Todos os direitos reservados.
+            © {new Date().getFullYear()} John Wesley. Todos os direitos
+            reservados.
           </p>
           <button
             id="backToTop"

@@ -589,6 +589,23 @@ textarea:focus {
   pointer-events: none;
 }
 
+@media (max-width: 640px) {
+  #contactForm {
+    padding: 1.25rem;
+  }
+
+  .contact-link {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+  }
+
+  .tool-chip {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
