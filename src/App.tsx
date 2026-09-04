@@ -601,10 +601,7 @@ function App() {
                   />
                 </svg>
                 <div className="absolute inset-0 tech-grid opacity-40" />
-                <img
-                  src="WhatsApp Image 2026-08-08 at 17.36.02.jpeg"
-                  alt="Retrato de John Wesley"
-                />
+                <img src="/profile.jpeg" alt="Retrato de John Wesley" />
                 <div className="absolute top-4 left-4 mono text-[10px] text-cyan-300/80">
                   JW_DEV
                 </div>
