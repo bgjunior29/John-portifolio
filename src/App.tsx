@@ -312,13 +312,20 @@ function App() {
 
     window.addEventListener("scroll", updateNav);
     updateNav();
-    window.addEventListener("load", () => {
-      setTimeout(() => loader?.classList.add("hide"), 900);
-    });
+    const hideLoader = () => {
+      window.setTimeout(() => loader?.classList.add("hide"), 900);
+    };
+
+    if (document.readyState === "complete") {
+      hideLoader();
+    } else {
+      window.addEventListener("load", hideLoader, { once: true });
+    }
 
     return () => {
       window.removeEventListener("mousemove", pointerMove);
       window.removeEventListener("scroll", updateNav);
+      window.removeEventListener("load", hideLoader);
       revealObserver.disconnect();
       counterObserver.disconnect();
     };
