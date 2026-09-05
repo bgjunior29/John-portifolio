@@ -58,42 +58,65 @@ function App() {
   const [activeFilter, setActiveFilter] = useState("todos");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [formStatus, setFormStatus] = useState({ type: "", message: "" });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const submittedForm = event.currentTarget;
+
+    const formData = new FormData(submittedForm);
+    const values = {
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      subject: String(formData.get("subject") || "").trim(),
+      message: String(formData.get("message") || "").trim(),
+    };
+    const errors: Record<string, string> = {};
+
+    if (values.name.length < 2) {
+      errors.name = "Digite seu nome (mínimo de 2 caracteres)";
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      errors.email = "Digite um e-mail válido";
+    }
+    if (!values.subject) {
+      errors.subject = "Digite um assunto";
+    }
+    if (values.message.length < 10) {
+      errors.message = "A mensagem deve ter pelo menos 10 caracteres";
+    }
+
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
     setIsSubmitting(true);
     setFormStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch(
-        "https://formsubmit.co/ajax/movitechsuporterdev@gmail.com",
-        {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: new FormData(submittedForm),
-        },
-      );
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok || result.success === false) {
         throw new Error(
-          result.message || "Não foi possível enviar a mensagem.",
+          "Não foi possível enviar sua mensagem. Tente novamente.",
         );
       }
 
       submittedForm.reset();
+      setFormErrors({});
       setFormStatus({
         type: "success",
-        message: "E-mail enviado com sucesso. Obrigado pelo contato!",
+        message: "Mensagem enviada com sucesso! Entrarei em contato em breve.",
       });
     } catch (error) {
       setFormStatus({
         type: "error",
-        message:
-          error.message ||
-          "Não foi possível enviar agora. Tente novamente em instantes.",
+        message: "Não foi possível enviar sua mensagem. Tente novamente.",
       });
     } finally {
       setIsSubmitting(false);
@@ -1312,32 +1335,16 @@ function App() {
           <form
             id="contactForm"
             onSubmit={handleFormSubmit}
+            noValidate
             acceptCharset="UTF-8"
             className="glass-strong rounded-3xl p-8 md:p-10 reveal-right space-y-5"
           >
             <input
-              type="hidden"
-              name="_subject"
-              value="Novo contato pelo portfólio"
-            />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input
-              type="hidden"
-              name="_autoresponse"
-              value="Recebi sua mensagem e entrarei em contato em breve."
-            />
-            <input
               type="text"
-              name="_honey"
+              name="website"
               tabIndex={-1}
               autoComplete="off"
               className="hidden"
-            />
-            <input
-              type="hidden"
-              name="_next"
-              value={`${window.location.origin}${window.location.pathname}`}
             />
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
@@ -1353,6 +1360,11 @@ function App() {
                   className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600"
                   placeholder="Seu nome"
                 />
+                {formErrors.name && (
+                  <p className="text-rose-300 text-xs mt-2">
+                    {formErrors.name}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="email" className="mono text-xs text-gray-400">
@@ -1361,12 +1373,17 @@ function App() {
                 <input
                   required
                   type="email"
-                  name="_replyto"
+                  name="email"
                   id="email"
                   autoComplete="email"
                   className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600"
                   placeholder="voce@email.com"
                 />
+                {formErrors.email && (
+                  <p className="text-rose-300 text-xs mt-2">
+                    {formErrors.email}
+                  </p>
+                )}
               </div>
             </div>
             <div>
@@ -1381,6 +1398,11 @@ function App() {
                 className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600"
                 placeholder="Sobre o que vamos falar?"
               />
+              {formErrors.subject && (
+                <p className="text-rose-300 text-xs mt-2">
+                  {formErrors.subject}
+                </p>
+              )}
             </div>
             <div>
               <label htmlFor="message" className="mono text-xs text-gray-400">
@@ -1394,6 +1416,11 @@ function App() {
                 className="w-full mt-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 resize-none"
                 placeholder="Conte um pouco sobre o seu projeto..."
               />
+              {formErrors.message && (
+                <p className="text-rose-300 text-xs mt-2">
+                  {formErrors.message}
+                </p>
+              )}
             </div>
             <button
               type="submit"
