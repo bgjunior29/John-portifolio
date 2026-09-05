@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import { Resend } from "resend";
 
 const MAX_NAME_LENGTH = 120;
@@ -8,32 +6,23 @@ const MAX_PHONE_LENGTH = 30;
 const MAX_SUBJECT_LENGTH = 160;
 const MAX_MESSAGE_LENGTH = 5000;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const requestTimestamps = new Map<string, number>();
+const requestTimestamps = new Map();
 
-type ContactData = {
-  name: string;
-  email: string;
-  phone?: string;
-  subject?: string;
-  message: string;
-  website?: string;
-};
-
-const cleanText = (value: unknown, maxLength: number) =>
+const cleanText = (value, maxLength) =>
   String(value ?? "")
     .replace(/[\u0000-\u001F\u007F]/g, "")
     .replace(/[<>]/g, "")
     .trim()
     .slice(0, maxLength);
 
-const getClientIp = (request: any) => {
+const getClientIp = (request) => {
   const forwardedFor = request.headers["x-forwarded-for"];
   return String(forwardedFor || request.socket?.remoteAddress || "unknown")
     .split(",")[0]
     .trim();
 };
 
-export default async function handler(request: any, response: any) {
+export default async function handler(request, response) {
   if (request.method !== "POST") {
     return response.status(405).json({ error: "Método não permitido." });
   }
@@ -46,7 +35,7 @@ export default async function handler(request: any, response: any) {
       .json({ error: "Aguarde alguns segundos antes de tentar novamente." });
   }
 
-  const body = (request.body || {}) as ContactData;
+  const body = request.body || {};
   if (body.website) {
     return response.status(400).json({ error: "Solicitação inválida." });
   }
@@ -78,29 +67,35 @@ export default async function handler(request: any, response: any) {
   }
 
   requestTimestamps.set(clientIp, Date.now());
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const emailResult = await resend.emails.send({
-    from: process.env.FROM_EMAIL,
-    to: process.env.CONTACT_EMAIL,
-    replyTo: email,
-    subject: subject || "Novo contato pelo portfólio",
-    text: [
-      "Novo contato pelo site",
-      "",
-      `Nome: ${name}`,
-      `E-mail: ${email}`,
-      `Telefone: ${phone || "Não informado"}`,
-      `Assunto: ${subject || "Não informado"}`,
-      "",
-      "Mensagem:",
-      message,
-    ].join("\n"),
-  });
 
-  if (emailResult.error) {
-    console.error("Erro ao enviar contato:", emailResult.error);
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const emailResult = await resend.emails.send({
+      from: process.env.FROM_EMAIL,
+      to: process.env.CONTACT_EMAIL,
+      replyTo: email,
+      subject,
+      text: [
+        "Novo contato pelo site",
+        "",
+        `Nome: ${name}`,
+        `E-mail: ${email}`,
+        `Telefone: ${phone || "Não informado"}`,
+        `Assunto: ${subject}`,
+        "",
+        "Mensagem:",
+        message,
+      ].join("\n"),
+    });
+
+    if (emailResult.error) {
+      console.error("Erro ao enviar contato:", emailResult.error);
+      return response.status(502).json({ error: "Falha no envio." });
+    }
+
+    return response.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Exceção ao enviar contato:", error);
     return response.status(502).json({ error: "Falha no envio." });
   }
-
-  return response.status(200).json({ success: true });
 }
