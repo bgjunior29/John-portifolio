@@ -1298,18 +1298,14 @@ function App() {
                 download
                 className="contact-link"
               >
-                <i data-lucide="mail" className="w-5 h-5" /> Enviar mensagem
-                pelo formulário
+                <i data-lucide="mail" className="w-5 h-5" /> Baixar currículo
+                (PDF)
               </a>
               <a
                 href="https://wa.me/5511968363530?text=ol%C3%A1%20%2C%20Tudo%20Bem%20%3F"
                 className="contact-link"
               >
                 <i data-lucide="message-circle" className="w-5 h-5" /> WhatsApp
-              </a>
-              <a href="#contato" className="contact-link">
-                <i data-lucide="file-down" className="w-5 h-5" /> Baixar
-                currículo (PDF)
               </a>
             </div>
           </div>
