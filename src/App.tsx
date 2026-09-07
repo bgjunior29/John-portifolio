@@ -1230,12 +1230,11 @@ function App() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { target: 12, label: "PROJETOS DESENVOLVIDOS" },
-              { target: 18, label: "TECNOLOGIAS UTILIZADAS" },
               { target: 3, label: "ANOS DE EXPERIÊNCIA" },
               { target: 900, label: "HORAS DE DESENVOLVIMENTO" },
               { target: 640, label: "COMMITS" },
               { target: 45, suffix: "k+", label: "LINHAS DE CÓDIGO" },
-              { target: 8, label: "CLIENTES ATENDIDOS" },
+              { target: 3, label: "CLIENTES ATENDIDOS" },
               { target: 100, suffix: "%", label: "DEDICAÇÃO EM CADA ENTREGA" },
             ].map((stat, index) => (
               <div
