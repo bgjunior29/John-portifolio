@@ -19,6 +19,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 body {
@@ -27,7 +28,35 @@ body {
   color: #e6e9f0;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
+}
+
+html.has-cursor body {
   cursor: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--neon);
+  color: #fff;
+  font-size: 14px;
+  transform: translateY(-200%);
+  transition: transform 0.2s;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 ::selection {
@@ -60,64 +89,6 @@ h4,
   border-radius: 8px;
 }
 
-#loader {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: var(--black);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 18px;
-  transition:
-    opacity 0.7s ease,
-    visibility 0.7s ease;
-}
-
-#loader.hide {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.loader-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 2px solid rgba(59, 130, 246, 0.15);
-  border-top-color: var(--electric);
-  border-right-color: var(--cyan);
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loader-bar {
-  width: 220px;
-  height: 2px;
-  background: rgba(59, 130, 246, 0.15);
-  overflow: hidden;
-  border-radius: 2px;
-}
-
-.loader-bar span {
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--neon), var(--cyan));
-  animation: load 1.6s ease-in-out forwards;
-}
-
-@keyframes load {
-  to {
-    width: 100%;
-  }
-}
-
 .cursor-dot,
 .cursor-ring {
   position: fixed;
@@ -125,8 +96,20 @@ h4,
   left: 0;
   pointer-events: none;
   z-index: 999;
-  transform: translate(-50%, -50%);
+  transform: translate3d(-100px, -100px, 0);
   border-radius: 50%;
+  display: none;
+  will-change: transform;
+}
+
+html.has-cursor .cursor-dot,
+html.has-cursor .cursor-ring {
+  display: block;
+}
+
+html.cursor-out .cursor-dot,
+html.cursor-out .cursor-ring {
+  opacity: 0;
 }
 
 .cursor-dot {
@@ -144,7 +127,8 @@ h4,
     width 0.2s,
     height 0.2s,
     border-color 0.2s,
-    background 0.2s;
+    background 0.2s,
+    opacity 0.2s;
 }
 
 .cursor-ring.active {
@@ -152,17 +136,6 @@ h4,
   height: 56px;
   background: rgba(37, 99, 235, 0.12);
   border-color: var(--cyan);
-}
-
-@media (max-width: 768px) {
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-
-  body {
-    cursor: auto;
-  }
 }
 
 .tech-grid {
@@ -233,8 +206,13 @@ canvas#particles {
   transition: width 0.3s ease;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
+}
+
+.nav-link.active {
+  color: #fff;
 }
 
 .btn-primary {
@@ -334,6 +312,28 @@ canvas#particles {
   transform: scale(1);
 }
 
+.hero-in {
+  animation: hero-in 0.8s cubic-bezier(0.16, 0.84, 0.44, 1) both;
+}
+
+.hero-in-scale {
+  animation: hero-in-scale 0.8s cubic-bezier(0.16, 0.84, 0.44, 1) both;
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes hero-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
 .tilt-card {
   transform-style: preserve-3d;
   transition:
@@ -427,6 +427,9 @@ canvas#particles {
 
 .ripple-el {
   position: absolute;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.35);
   transform: scale(0);
@@ -579,18 +582,92 @@ textarea:focus {
 }
 
 .project-card {
-  opacity: 1;
-  transform: scale(1);
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
+  animation: card-in 0.45s cubic-bezier(0.16, 0.84, 0.44, 1) both;
 }
 
-.project-card.hide {
-  opacity: 0;
-  transform: scale(0.9);
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+/* O link do título cobre o card inteiro; links internos ficam acima com z-10 */
+.card-link::after {
+  content: "";
   position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.card-link:focus-visible {
+  outline: none;
+}
+
+.project-card.has-link:has(.card-link:focus-visible) {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.project-card.has-link:hover h3 {
+  color: var(--cyan);
+}
+
+.project-visit svg {
+  transition: transform 0.25s ease;
+}
+
+.project-card.has-link:hover .project-visit svg {
+  transform: translate(2px, -2px);
+}
+
+.project-card.upcoming {
+  border-style: dashed;
+  background: rgba(17, 24, 39, 0.25);
+}
+
+.stat-card {
+  width: calc(50% - 8px);
+}
+
+@media (min-width: 768px) {
+  .stat-card {
+    width: calc(25% - 18px);
+  }
+}
+
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(10, 13, 20, 0.85);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  opacity: 0;
+  transform: translateY(12px);
   pointer-events: none;
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    border-color 0.3s;
+}
+
+.to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.to-top:hover {
+  border-color: var(--cyan);
 }
 
 @media (max-width: 640px) {
@@ -611,7 +688,13 @@ textarea:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
