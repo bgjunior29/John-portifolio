@@ -272,10 +272,15 @@ const projects: Array<{
   },
 ];
 
+// Conta só projetos publicados (ignora o card "Em breve")
+const publishedProjects = projects.filter(
+  (project) => project.status !== "Em breve",
+).length;
+
 const projectFilters = ["todos", "frontend", "backend", "fullstack", "landing"];
 
 const stats = [
-  { target: 12, label: "PROJETOS DESENVOLVIDOS" },
+  { target: publishedProjects, label: "PROJETOS DESENVOLVIDOS" },
   { target: 3, label: "ANOS DE EXPERIÊNCIA" },
   { target: 900, label: "HORAS DE DESENVOLVIMENTO" },
   { target: 640, label: "COMMITS" },
@@ -881,7 +886,7 @@ function App() {
               >
                 {[
                   { value: "3+", label: "ANOS DE EXPERIÊNCIA" },
-                  { value: "12+", label: "PROJETOS ENTREGUES" },
+                  { value: String(publishedProjects), label: "PROJETOS ENTREGUES" },
                   { value: "2", label: "FORMAÇÕES TÉCNICAS" },
                 ].map((item, index) => (
                   <div key={item.label} className="flex items-center gap-6 sm:gap-8">
