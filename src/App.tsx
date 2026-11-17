@@ -66,7 +66,7 @@ const marqueeItems = [
 
 const experiences = [
   {
-    period: "2026 — ATUAL",
+    period: "2026 — 8 MESES · ATÉ AGO/2026",
     role: "Auxiliar Técnico Jr",
     company: "Avantia Tecnologia",
     tags: [
@@ -983,13 +983,14 @@ function App() {
                 tecnologias e evoluir profissionalmente.
               </p>
               <p>
-                Atualmente atuo como{" "}
+                Até agosto de 2026 atuei como{" "}
                 <span className="text-white font-medium">
                   Auxiliar Técnico Jr na Avantia Tecnologia
                 </span>
-                , onde trabalho com infraestrutura, manutenção preventiva e
+                , onde trabalhei com infraestrutura, manutenção preventiva e
                 corretiva, instalação e configuração de equipamentos, alarme e
-                sistemas de segurança.
+                sistemas de segurança. Hoje estou disponível para novas
+                oportunidades, em regime remoto ou presencial.
               </p>
               <p>
                 Além da experiência em infraestrutura, venho expandindo minha
