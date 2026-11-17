@@ -107,36 +107,36 @@ const experiences = [
 const skillGroups: Array<{
   title: string;
   icon: LucideIcon;
-  skills: Array<{ name: string; level: number }>;
+  skills: string[];
   tools?: string[];
 }> = [
   {
     title: "Front-end",
     icon: LayoutTemplate,
     skills: [
-      { name: "React", level: 90 },
-      { name: "TypeScript", level: 85 },
-      { name: "JavaScript", level: 92 },
-      { name: "Tailwind CSS", level: 88 },
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "Tailwind CSS",
     ],
   },
   {
     title: "Back-end",
     icon: Database,
     skills: [
-      { name: "Node.js", level: 88 },
-      { name: "Express", level: 80 },
-      { name: "Prisma", level: 82 },
-      { name: "REST API", level: 85 },
-      { name: "JWT", level: 78 },
+      "Node.js",
+      "Express",
+      "Prisma",
+      "REST API",
+      "JWT",
     ],
   },
   {
     title: "Banco de Dados",
     icon: HardDrive,
     skills: [
-      { name: "PostgreSQL", level: 86 },
-      { name: "SQL Server", level: 75 },
+      "PostgreSQL",
+      "SQL Server",
     ],
     tools: ["Git", "GitHub", "Railway", "Vercel", "Beekeeper Studio"],
   },
@@ -144,10 +144,10 @@ const skillGroups: Array<{
     title: "Infraestrutura",
     icon: Network,
     skills: [
-      { name: "Redes", level: 90 },
-      { name: "Cabeamento estruturado", level: 88 },
-      { name: "Hardware", level: 85 },
-      { name: "Segurança eletrônica", level: 82 },
+      "Redes",
+      "Cabeamento estruturado",
+      "Hardware",
+      "Segurança eletrônica",
     ],
   },
 ];
@@ -264,7 +264,7 @@ const projects: Array<{
   },
   {
     name: "Novo Projeto",
-    desc: "Este espaço está reservado para o próximo produto — os projetos são carregados dinamicamente conforme novas entregas.",
+    desc: "Próximo projeto em desenvolvimento. Tem uma ideia parecida? Vamos conversar sobre ela.",
     tech: ["Em breve"],
     status: "Em breve",
     category: ["fullstack"],
@@ -279,14 +279,13 @@ const publishedProjects = projects.filter(
 
 const projectFilters = ["todos", "frontend", "backend", "fullstack", "landing"];
 
+// Só métricas verificáveis: projetos contados dos dados acima, anos e formações
+// do histórico profissional/acadêmico, e repositórios públicos no GitHub.
 const stats = [
-  { target: publishedProjects, label: "PROJETOS DESENVOLVIDOS" },
+  { target: publishedProjects, label: "PROJETOS ENTREGUES" },
   { target: 3, label: "ANOS DE EXPERIÊNCIA" },
-  { target: 900, label: "HORAS DE DESENVOLVIMENTO" },
-  { target: 640, label: "COMMITS" },
-  { target: 45, suffix: "k+", label: "LINHAS DE CÓDIGO" },
-  { target: 3, label: "CLIENTES ATENDIDOS" },
-  { target: 100, suffix: "%", label: "DEDICAÇÃO EM CADA ENTREGA" },
+  { target: 2, label: "FORMAÇÕES TÉCNICAS" },
+  { target: 10, label: "REPOSITÓRIOS PÚBLICOS" },
 ];
 
 const softSkills: Array<{ name: string; icon: LucideIcon }> = [
@@ -421,19 +420,13 @@ function App() {
     updateScroll();
     cleanups.push(() => window.removeEventListener("scroll", onScroll));
 
-    // Animações de entrada + barras de skill
-    const fillSkills = (el: Element) =>
-      el.querySelectorAll<HTMLElement>(".skill").forEach((skill) => {
-        const fill = skill.querySelector<HTMLElement>(".skill-bar-fill");
-        if (fill) fill.style.width = `${skill.dataset.level}%`;
-      });
+    // Animações de entrada
     const revealEls = document.querySelectorAll(
       ".reveal, .reveal-left, .reveal-right, .reveal-scale",
     );
     if (reduceMotion) {
       revealEls.forEach((el) => {
         el.classList.add("in");
-        fillSkills(el);
       });
     } else {
       const revealObserver = new IntersectionObserver(
@@ -441,7 +434,6 @@ function App() {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
             entry.target.classList.add("in");
-            fillSkills(entry.target);
             revealObserver.unobserve(entry.target);
           });
         },
@@ -834,16 +826,16 @@ function App() {
                 className="mono text-blue-300 text-sm md:text-base mt-6 tracking-wide hero-in"
                 style={{ animationDelay: "0.12s" }}
               >
-                Desenvolvedor Full Stack · Designer · Profissional de TI
+                Desenvolvedor Full Stack
               </p>
               <p
                 className="text-gray-400 text-base md:text-lg leading-relaxed mt-6 max-w-xl hero-in"
                 style={{ animationDelay: "0.18s" }}
               >
-                Transformo ideias em experiências digitais modernas, criando
-                aplicações escaláveis, interfaces elegantes e soluções
-                tecnológicas que unem design, desempenho, inovação e
-                inteligência artificial.
+                Crio aplicações web completas com React, TypeScript e Node.js.
+                Também trabalho com redes, hardware e infraestrutura de TI, e
+                essa base me ajuda a entregar software com atenção a
+                desempenho, segurança e operação.
               </p>
               <div
                 className="flex flex-wrap gap-4 mt-10 hero-in"
@@ -976,7 +968,7 @@ function App() {
           <div className="glow-orb w-[400px] h-[400px] bg-blue-600/15 top-0 right-0" />
           <div className="max-w-7xl mx-auto relative grid lg:grid-cols-[0.9fr_1.1fr] gap-16 items-start">
             <div className="reveal-left">
-              <span className="eyebrow">192.168.00.01 // sobre mim</span>
+              <span className="eyebrow">192.168.0.1 // sobre mim</span>
               <h2 className="display text-3xl md:text-4xl font-semibold mt-5 leading-tight">
                 Da infraestrutura ao código: uma trajetória construída camada
                 por camada.
@@ -1205,23 +1197,11 @@ function App() {
                       {group.title}
                     </h3>
                   </div>
-                  <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2">
                     {group.skills.map((skill) => (
-                      <div
-                        key={skill.name}
-                        className="skill"
-                        data-level={skill.level}
-                      >
-                        <div className="flex justify-between text-xs mb-1.5">
-                          <span>{skill.name}</span>
-                          <span className="mono text-cyan-300">
-                            {skill.level}%
-                          </span>
-                        </div>
-                        <div className="h-1.5 bg-white/5 rounded-full">
-                          <div className="skill-bar-fill h-full rounded-full" />
-                        </div>
-                      </div>
+                      <span key={skill} className="tool-chip">
+                        {skill}
+                      </span>
                     ))}
                   </div>
                   {group.tools && (
@@ -1474,7 +1454,6 @@ function App() {
                     <span className="counter" data-target={stat.target}>
                       0
                     </span>
-                    {stat.suffix || ""}
                   </p>
                   <p className="mono text-[11px] md:text-xs text-gray-500 mt-2 tracking-wide">
                     {stat.label}
