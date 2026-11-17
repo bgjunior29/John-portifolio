@@ -12,6 +12,7 @@ import {
   Cake,
   ChevronDown,
   Code2,
+  Compass,
   Database,
   Download,
   FileDown,
@@ -216,14 +217,14 @@ const projects: Array<{
     url: "https://medpayshopthree.vercel.app",
   },
   {
-    name: "DioSalon",
-    desc: "Landing page premium para barbearia com sistema de agendamentos online, venda de produtos e backend dedicado.",
-    tech: ["Next.js", "TypeScript", "Node.js", "Railway", "Vercel"],
-    status: "Em produção",
+    name: "Comodors",
+    desc: "Site para barbearia com agendamento online, venda de produtos e backend próprio.",
+    tech: ["Next.js", "TypeScript", "Node.js"],
+    status: "Concluído",
     category: ["fullstack", "landing"],
     icon: Scissors,
-    url: "https://dio-salaon-static.vercel.app",
-    repository: "https://github.com/bgjunior29/dioSal-o",
+    url: "https://comodors-web.vercel.app",
+    repository: "https://github.com/bgjunior29/Comodors",
   },
   {
     name: "Judoces",
@@ -248,19 +249,20 @@ const projects: Array<{
     name: "Emagrecimento 30+",
     desc: "Landing page de vendas para e-book voltado a mulheres 30+, com copy persuasiva, seções de dor e solução e chamadas para conversão.",
     tech: ["React", "Vite", "Vercel"],
-    status: "Em produção",
+    status: "Concluído",
     category: ["frontend", "landing"],
     icon: HeartPulse,
     url: "https://emagrecimento-30.vercel.app",
   },
   {
-    name: "Balada",
-    desc: "Plataforma para descobrir eventos e baladas, com busca por clima, filtros de data e orçamento, casas em destaque e cadastro de usuários.",
-    tech: ["React", "Vite", "Vercel"],
-    status: "Em produção",
-    category: ["frontend", "fullstack"],
-    icon: PartyPopper,
-    url: "https://balada-cd7s.vercel.app",
+    name: "Guia Turismo",
+    desc: "Guia turístico com cadastro, reservas e pagamento via Pix e Mercado Pago.",
+    tech: ["React", "Vite", "Supabase", "Vercel"],
+    status: "Em desenvolvimento",
+    category: ["fullstack", "frontend"],
+    icon: Compass,
+    url: "https://guia-turismo-eosin.vercel.app",
+    repository: "https://github.com/bgjunior29/GuiadeTurismo",
   },
   {
     name: "Novo Projeto",
@@ -298,7 +300,7 @@ const softSkills: Array<{ name: string; icon: LucideIcon }> = [
 ];
 
 const WHATSAPP_URL =
-  "https://wa.me/5511968363530?text=ol%C3%A1%20%2C%20Tudo%20Bem%20%3F";
+  "https://wa.me/5511964452878?text=ol%C3%A1%20%2C%20Tudo%20Bem%20%3F";
 const GITHUB_URL = "https://github.com/bgjunior29";
 const LINKEDIN_URL = "https://www.linkedin.com/in/john-w-144763242/";
 const RESUME_URL = "/curriculo-john-wesley-2026.pdf";
